@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dynamic Flyer Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    #flyer {
+      width: 600px;
+      height: 800px;
+      padding: 40px;
+      box-sizing: border-box;
+      color: #000;
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #000;
+      position: relative;
+    }
+
+    #preview {
+      margin-top: 20px;
+      max-width: 100%;
+    }
+
+    input, textarea, button {
+      display: block;
+      margin-bottom: 10px;
+      padding: 8px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div class="flex flex-row">
+    <div class="flex-1">
+      <h2 class="text-2xl font-bold text-center">Create Your Flyer</h2>
+      <input class="border border-gray-300 rounded-md p-2 my-2 w-full" type="text" id="titleInput" placeholder="Flyer Title" />
+      <textarea class="border border-gray-300 rounded-md p-2 my-2 w-full" id="descriptionInput" placeholder="Flyer Description"></textarea>
+      <input class="border border-gray-300 rounded-md p-2 my-2 w-full" type="date" id="dateInput" />
+      <input class="border border-gray-300 rounded-md p-2 my-2 w-full" type="text" id="locationInput" placeholder="Location" />
+      <input class="p-2 my-2 w-full" type="file" id="bgInput" accept="image/*" />
+
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2" onclick="updateFlyer()">Update Flyer</button>
+      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2" onclick="generateImage()">Preview</button>
+      <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mb-2" onclick="downloadImage()">Download Flyer</button>
+    </div>
+    <div class="flex-1">
+      <div id="flyer">
+        <div class="flyer-content" id="flyerContent">
+          <h1 id="flyerTitle">Event Title</h1>
+          <p id="flyerDesc">Description goes here...</p>
+          <p id="flyerDate">Date: --</p>
+          <p id="flyerLoc">Location: --</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="output"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    let generatedImage = null;
+
+    function updateFlyer() {
+      document.getElementById("flyerTitle").innerText = document.getElementById("titleInput").value || "Event Title";
+      document.getElementById("flyerDesc").innerText = document.getElementById("descriptionInput").value || "Description goes here...";
+      document.getElementById("flyerDate").innerText = "Date: " + (document.getElementById("dateInput").value || "--");
+      document.getElementById("flyerLoc").innerText = "Location: " + (document.getElementById("locationInput").value || "--");
+    }
+
+    document.getElementById("bgInput").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById("flyer").style.backgroundImage = `url(${e.target.result})`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function generateImage() {
+      html2canvas(document.getElementById("flyer")).then(canvas => {
+        generatedImage = canvas.toDataURL("image/png");
+        const imgPreview = document.createElement("img");
+        imgPreview.src = generatedImage;
+        imgPreview.id = "preview";
+        const output = document.getElementById("output");
+        output.innerHTML = "";
+        output.appendChild(imgPreview);
+      });
+    }
+
+    function downloadImage() {
+      if (!generatedImage) {
+        alert("Please generate a preview first.");
+        return;
+      }
+      const a = document.createElement("a");
+      a.href = generatedImage;
+      a.download = "flyer.png";
+      a.click();
+    }
+  </script>
+</body>
+</html>
