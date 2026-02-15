@@ -1,0 +1,845 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+/* Form Sections */
+.form-section {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 8px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group input[type="color"] {
+  width: 60px;
+  height: 35px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-group input[type="file"] {
+  padding: 5px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+/* Image Preview */
+.image-preview {
+  max-width: 150px;
+  max-height: 150px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+/* Flyer Canvas Container */
+#flyerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#flyer {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background Image Layer */
+#flyerBgImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Flyer Content Styles */
+#flyerContent {
+  width: 100%;
+  height: 100%;
+  padding: calc(20px * var(--scale-factor, 1));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: white;
+  z-index: 1;
+  
+}
+
+/* En formato 9:16: optimizar padding y distribuir espacio */
+#flyer[data-ratio="9:16"] #flyerContent {
+  padding: calc(18px * var(--scale-factor, 1));
+  justify-content: space-between;
+}
+
+.flyer-title-section {
+  text-align: center;
+  margin-bottom: calc(30px * var(--scale-factor, 1));
+}
+
+/* En formato 9:16: reducir margen del título */
+#flyer[data-ratio="9:16"] .flyer-title-section {
+  margin-bottom: calc(20px * var(--scale-factor, 1));
+}
+
+.flyer-main-title {
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.flyer-subtitle {
+  margin: calc(10px * var(--scale-factor, 1)) 0 0 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Date and Time Boxes */
+/* Wrapper para datetime y speakers */
+.flyer-datetime-speakers-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: calc(1em * var(--scale-factor, 1));
+}
+
+/* En formatos anchos de baja altura: speakers a la izquierda, datetime a la derecha */
+#flyer[data-ratio="16:9"] .flyer-datetime-speakers-wrapper,
+#flyer[data-ratio="21:9"] .flyer-datetime-speakers-wrapper {
+  flex-direction: row-reverse;
+  gap: calc(30px * var(--scale-factor, 1));
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.flyer-datetime-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: calc(30px * var(--scale-factor, 1));
+}
+
+/* En formatos anchos: sin margen inferior, alineado a la derecha y compacto */
+#flyer[data-ratio="16:9"] .flyer-datetime-section,
+#flyer[data-ratio="21:9"] .flyer-datetime-section {
+  margin-bottom: 0;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  padding-right: calc(20px * var(--scale-factor, 0.5));
+}
+
+/* En formato 9:16: reducir margen de datetime */
+#flyer[data-ratio="9:16"] .flyer-datetime-section {
+  margin-bottom: calc(20px * var(--scale-factor, 1));
+}
+
+.flyer-datetime-container {
+  display: flex;
+  gap: calc(20px * var(--scale-factor, 1));
+}
+
+/* En formatos anchos: boxes en columna más compactas */
+#flyer[data-ratio="16:9"] .flyer-datetime-container,
+#flyer[data-ratio="21:9"] .flyer-datetime-container {
+  flex-direction: column;
+  gap: calc(15px * var(--scale-factor, 1));
+}
+
+/* En formato 9:16: reducir gap entre cajas */
+#flyer[data-ratio="9:16"] .flyer-datetime-container {
+  gap: calc(15px * var(--scale-factor, 1));
+}
+
+/* En formatos anchos: boxes con ancho fijo para mejor control */
+#flyer[data-ratio="16:9"] .flyer-date-box,
+#flyer[data-ratio="21:9"] .flyer-date-box {
+  min-width: 180px;
+  max-width: 220px;
+  flex: 0 0 auto;
+  width: 200px;
+  padding: calc(10px * var(--scale-factor, 1)) calc(14px * var(--scale-factor, 1));
+  min-height: auto;
+}
+
+#flyer[data-ratio="16:9"] .flyer-time-box,
+#flyer[data-ratio="21:9"] .flyer-time-box {
+  min-width: 180px;
+  max-width: 220px;
+  flex: 0 0 auto;
+  width: 200px;
+  padding: calc(10px * var(--scale-factor, 1)) calc(14px * var(--scale-factor, 1));
+  min-height: auto;
+  justify-content: center;
+}
+
+.flyer-date-box,
+.flyer-time-box {
+  padding: calc(10px * var(--scale-factor, 1))
+    calc(18px * var(--scale-factor, 1));
+  border-radius: calc(15px * var(--scale-factor, 1));
+  text-align: center;
+  font-weight: 600;
+}
+
+/* En formato 9:16: reducir padding de cajas de fecha/hora */
+#flyer[data-ratio="9:16"] .flyer-date-box,
+#flyer[data-ratio="9:16"] .flyer-time-box {
+  padding: calc(8px * var(--scale-factor, 1)) calc(14px * var(--scale-factor, 1));
+}
+
+.flyer-date-box {
+  flex: 0 1 230px;
+  max-width: 230px;
+}
+
+/* En formato 9:16: limitar ancho de caja de fecha */
+#flyer[data-ratio="9:16"] .flyer-date-box {
+  flex: 0 1 200px;
+  max-width: 200px;
+}
+
+.flyer-time-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 1 280px;
+  max-width: 300px;
+  text-align: center;
+}
+
+/* En formato 9:16: limitar ancho de caja de hora */
+#flyer[data-ratio="9:16"] .flyer-time-box {
+  flex: 0 1 250px;
+  max-width: 270px;
+}
+
+.date-day-week {
+  font-size: calc(16px * var(--scale-factor, 1));
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* En formatos anchos: reducir font-size y márgenes de date elements */
+#flyer[data-ratio="16:9"] .date-day-week,
+#flyer[data-ratio="21:9"] .date-day-week {
+  font-size: calc(24px * var(--scale-factor, 1));
+  margin-bottom: 2px;
+  line-height: 1.1;
+}
+
+/* En formato 9:16: reducir font-size de día de la semana */
+#flyer[data-ratio="9:16"] .date-day-week {
+  font-size: calc(14px * var(--scale-factor, 1));
+  margin-bottom: 3px;
+}
+
+.date-month-day {
+  font-size: calc(20px * var(--scale-factor, 1));
+  margin-bottom: 2px;
+}
+
+#flyer[data-ratio="16:9"] .date-month-day,
+#flyer[data-ratio="21:9"] .date-month-day {
+  font-size: calc(32px * var(--scale-factor, 1));
+  margin-bottom: 2px;
+  line-height: 1.1;
+}
+
+/* En formato 9:16: reducir font-size de mes y día */
+#flyer[data-ratio="9:16"] .date-month-day {
+  font-size: calc(18px * var(--scale-factor, 1));
+  margin-bottom: 2px;
+}
+
+.date-year {
+  font-size: calc(16px * var(--scale-factor, 1));
+}
+
+#flyer[data-ratio="16:9"] .date-year,
+#flyer[data-ratio="21:9"] .date-year {
+  font-size: calc(24px * var(--scale-factor, 1));
+  line-height: 1.1;
+}
+
+/* En formato 9:16: reducir font-size de año */
+#flyer[data-ratio="9:16"] .date-year {
+  font-size: calc(14px * var(--scale-factor, 1));
+}
+
+.time-text {
+  font-size: calc(18px * var(--scale-factor, 1));
+  margin-top: calc(4px * var(--scale-factor, 1));
+}
+
+#flyer[data-ratio="16:9"] .time-text,
+#flyer[data-ratio="21:9"] .time-text {
+  font-size: calc(28px * var(--scale-factor, 1));
+  margin-top: calc(4px * var(--scale-factor, 1));
+  line-height: 1.1;
+}
+
+/* En formato 9:16: reducir font-size de hora */
+#flyer[data-ratio="9:16"] .time-text {
+  font-size: calc(16px * var(--scale-factor, 1));
+  margin-top: calc(3px * var(--scale-factor, 1));
+}
+
+.flyer-time-box .flyer-location-line {
+  margin: calc(1px * var(--scale-factor, 1)) 0;
+  font-size: calc(20px * var(--scale-factor, 1));
+  line-height: 1.15;
+}
+
+/* En formatos anchos: reducir font-size de location lines */
+#flyer[data-ratio="16:9"] .flyer-time-box .flyer-location-line,
+#flyer[data-ratio="21:9"] .flyer-time-box .flyer-location-line {
+  font-size: calc(26px * var(--scale-factor, 1));
+  line-height: 1.15;
+  margin: 0;
+}
+
+/* En formato 9:16: reducir font-size de líneas de ubicación */
+#flyer[data-ratio="9:16"] .flyer-time-box .flyer-location-line {
+  font-size: calc(17px * var(--scale-factor, 1));
+  line-height: 1.15;
+  margin: 0;
+}
+
+/* Location Section */
+.flyer-location-section {
+  text-align: center;
+  margin-bottom: calc(30px * var(--scale-factor, 1));
+}
+
+.flyer-location-line {
+  margin: 5px 0;
+  font-size: calc(18px * var(--scale-factor, 1));
+}
+
+/* Speakers Section */
+.flyer-speakers-section {
+  display: grid;
+  grid-template-columns: repeat(2, 250px);
+  gap: calc(20px * var(--scale-factor, 1));
+  margin-bottom: calc(30px * var(--scale-factor, 1));
+  flex: 1;
+  align-items: start;
+  justify-content: center;
+}
+
+/* En formatos anchos: sin margen inferior (el wrapper lo maneja) */
+#flyer[data-ratio="16:9"] .flyer-speakers-section,
+#flyer[data-ratio="21:9"] .flyer-speakers-section {
+  margin-bottom: 0;
+}
+
+/* En formato 9:16: hacer la sección de speakers más larga */
+#flyer[data-ratio="9:16"] .flyer-speakers-section {
+  flex: 2;
+  margin-bottom: calc(20px * var(--scale-factor, 1));
+  gap: calc(15px * var(--scale-factor, 1));
+  align-content: center;
+}
+
+.flyer-speaker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 250px;
+}
+
+.flyer-speaker-image {
+  width: 250px;
+  height: var(--speaker-image-height);
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: calc(12px * var(--scale-factor, 1));
+  margin-bottom: calc(15px * var(--scale-factor, 1));
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: move;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: box-shadow 0.2s;
+}
+
+/* En formato 9:16: hacer las imágenes de speakers más altas */
+#flyer[data-ratio="9:16"] .flyer-speaker-image {
+  height: 320px;
+}
+
+.flyer-speaker-image:hover {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.flyer-speaker-image.dragging {
+  cursor: grabbing;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.8);
+}
+
+.flyer-speaker-info {
+  width: 100%;
+}
+
+.flyer-speaker-name {
+  font-size: calc(20px * var(--scale-factor, 1));
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+/* En formato 9:16: reducir tamaño de fuente del nombre del speaker */
+#flyer[data-ratio="9:16"] .flyer-speaker-name {
+  font-size: calc(18px * var(--scale-factor, 1));
+  margin-bottom: 3px;
+}
+
+/* En formato 16:9: aumentar tamaño de fuente del nombre del speaker */
+#flyer[data-ratio="16:9"] .flyer-speaker-name {
+  font-size: calc(24px * var(--scale-factor, 1));
+  margin-bottom: 5px;
+}
+
+/* En formato 1:1: aumentar tamaño de fuente del nombre del speaker */
+#flyer[data-ratio="1:1"] .flyer-speaker-name {
+  font-size: calc(24px * var(--scale-factor, 1));
+  margin-bottom: 5px;
+}
+
+.flyer-speaker-role {
+  font-size: calc(16px * var(--scale-factor, 1));
+  margin-bottom: 3px;
+}
+
+/* En formato 9:16: reducir tamaño de fuente del rol del speaker */
+#flyer[data-ratio="9:16"] .flyer-speaker-role {
+  font-size: calc(14px * var(--scale-factor, 1));
+  margin-bottom: 2px;
+}
+
+/* En formato 16:9: aumentar tamaño de fuente del rol del speaker */
+#flyer[data-ratio="16:9"] .flyer-speaker-role {
+  font-size: calc(25px * var(--scale-factor, 1));
+  margin-bottom: 3px;
+}
+
+/* En formato 1:1: aumentar tamaño de fuente del rol del speaker */
+#flyer[data-ratio="1:1"] .flyer-speaker-role {
+  font-size: calc(20px * var(--scale-factor, 1));
+  margin-bottom: 4px;
+}
+
+.flyer-speaker-company {
+  font-size: calc(16px * var(--scale-factor, 1));
+  font-style: italic;
+}
+
+/* En formato 9:16: reducir tamaño de fuente de la compañía del speaker */
+#flyer[data-ratio="9:16"] .flyer-speaker-company {
+  font-size: calc(14px * var(--scale-factor, 1));
+}
+
+/* En formato 16:9: aumentar tamaño de fuente de la compañía del speaker */
+#flyer[data-ratio="16:9"] .flyer-speaker-company {
+  font-size: calc(25px * var(--scale-factor, 1));
+}
+
+/* En formato 1:1: aumentar tamaño de fuente de la compañía del speaker */
+#flyer[data-ratio="1:1"] .flyer-speaker-company {
+  font-size: calc(20px * var(--scale-factor, 1));
+}
+
+/* Registration Section */
+.flyer-registration-section {
+  text-align: center;
+  padding: calc(20px * var(--scale-factor, 1));
+  border-radius: calc(12px * var(--scale-factor, 1));
+  background: rgba(255, 255, 255, 0.1);
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: calc(50% * var(--scale-factor, 1));
+}
+
+/* En formato 9:16: mantener padding de registration */
+#flyer[data-ratio="9:16"] .flyer-registration-section {
+  padding: calc(18px * var(--scale-factor, 1));
+  margin-bottom: calc(20px * var(--scale-factor, 1));
+}
+
+/* Horizontal layout for wide formats */
+.flyer-registration-section.horizontal-layout {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: calc(20px * var(--scale-factor, 1));
+}
+
+.flyer-registration-section.horizontal-layout .registration-group-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: calc(8px * var(--scale-factor, 1));
+}
+
+.flyer-registration-section.horizontal-layout .registration-group-2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  gap: calc(3px * var(--scale-factor, 1));
+}
+
+/* Remove margins in horizontal layout */
+.flyer-registration-section.horizontal-layout .flyer-registration-emoji,
+.flyer-registration-section.horizontal-layout .flyer-registration-highlight,
+.flyer-registration-section.horizontal-layout .flyer-registration-text {
+  margin-bottom: 0;
+}
+
+/* Adjust sizes for horizontal layout */
+.flyer-registration-section.horizontal-layout .flyer-registration-emoji {
+  font-size: calc(36px * var(--scale-factor, 1));
+}
+
+.flyer-registration-section.horizontal-layout .flyer-registration-highlight {
+  font-size: calc(24px * var(--scale-factor, 1));
+}
+
+.flyer-registration-section.horizontal-layout .flyer-registration-text {
+  font-size: calc(14px * var(--scale-factor, 1));
+}
+
+.flyer-registration-section.horizontal-layout .flyer-registration-url {
+  font-size: calc(18px * var(--scale-factor, 1));
+}
+
+/* Sponsors Section */
+.flyer-sponsors-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(15px * var(--scale-factor, 1))
+    calc(20px * var(--scale-factor, 1));
+  background: white;
+  position: relative;
+  z-index: 10;
+}
+
+/* En formato 9:16: aumentar padding de sponsors para llenar mejor el espacio */
+#flyer[data-ratio="9:16"] .flyer-sponsors-section {
+  padding: calc(20px * var(--scale-factor, 1)) calc(15px * var(--scale-factor, 1));
+  min-height: calc(100px * var(--scale-factor, 1));
+  justify-content: center;
+}
+
+.flyer-sponsors-title {
+  font-size: calc(14px * var(--scale-factor, 1));
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: calc(10px * var(--scale-factor, 1));
+}
+
+/* En formato 9:16: mantener tamaño del título de sponsors */
+#flyer[data-ratio="9:16"] .flyer-sponsors-title {
+  font-size: calc(14px * var(--scale-factor, 1));
+  margin-bottom: calc(12px * var(--scale-factor, 1));
+}
+
+.flyer-sponsors-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: calc(15px * var(--scale-factor, 1));
+  width: 100%;
+}
+
+/* En formato 9:16: mantener gap entre logos */
+#flyer[data-ratio="9:16"] .flyer-sponsors-logos {
+  gap: calc(15px * var(--scale-factor, 1));
+}
+
+.flyer-sponsor-logo {
+  max-height: calc(60px * var(--scale-factor, 1));
+  max-width: calc(180px * var(--scale-factor, 1));
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(0%);
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+/* En formato 9:16: mantener tamaño razonable de logos de sponsors */
+#flyer[data-ratio="9:16"] .flyer-sponsor-logo {
+  max-height: calc(50px * var(--scale-factor, 1));
+  max-width: calc(150px * var(--scale-factor, 1));
+}
+
+/* En formato 16:9: aumentar tamaño de logos de sponsors */
+#flyer[data-ratio="16:9"] .flyer-sponsor-logo {
+  max-height: calc(80px * var(--scale-factor, 1));
+  max-width: calc(240px * var(--scale-factor, 1));
+}
+
+.flyer-sponsor-logo:hover {
+  opacity: 1;
+}
+
+.flyer-registration-emoji {
+  font-size: calc(32px * var(--scale-factor, 1));
+  margin-bottom: calc(10px * var(--scale-factor, 1));
+}
+
+/* En formato 9:16: reducir tamaño de emoji de registro */
+#flyer[data-ratio="9:16"] .flyer-registration-emoji {
+  font-size: calc(28px * var(--scale-factor, 1));
+  margin-bottom: calc(8px * var(--scale-factor, 1));
+}
+
+.flyer-registration-highlight {
+  font-size: calc(22px * var(--scale-factor, 1));
+  font-weight: bold;
+  margin-bottom: calc(10px * var(--scale-factor, 1));
+  text-transform: uppercase;
+}
+
+/* En formato 9:16: reducir tamaño de highlight de registro */
+#flyer[data-ratio="9:16"] .flyer-registration-highlight {
+  font-size: calc(20px * var(--scale-factor, 1));
+  margin-bottom: calc(8px * var(--scale-factor, 1));
+}
+
+.flyer-registration-text {
+  font-size: calc(18px * var(--scale-factor, 1));
+  margin-bottom: 5px;
+}
+
+/* En formato 9:16: reducir tamaño de texto de registro */
+#flyer[data-ratio="9:16"] .flyer-registration-text {
+  font-size: calc(16px * var(--scale-factor, 1));
+  margin-bottom: 4px;
+}
+
+.flyer-registration-url {
+  font-size: calc(20px * var(--scale-factor, 1));
+  font-weight: bold;
+}
+
+/* En formato 9:16: reducir tamaño de URL de registro */
+#flyer[data-ratio="9:16"] .flyer-registration-url {
+  font-size: calc(18px * var(--scale-factor, 1));
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-success {
+  background-color: #10b981;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #059669;
+}
+
+.btn-secondary {
+  background-color: #8b5cf6;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #7c3aed;
+}
+
+.btn-warning {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.btn-warning:hover {
+  background-color: #d97706;
+}
+
+/* Preview Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 90%;
+  max-height: 90vh;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.3s ease-out;
+  overflow: auto;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: #000;
+}
+
+#modalImageContainer {
+  text-align: center;
+  max-width: 100%;
+}
+
+#modalPreviewImage {
+  max-width: 100%;
+  max-height: 75vh;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.modal-buttons button {
+  min-width: 200px;
+  padding: 12px 24px;
+  font-size: 16px;
+  flex: 1;
+  max-width: 300px;
+}
+
+/* Utilities */
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.text-center {
+  text-align: center;
+}

@@ -1,114 +1,400 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Dynamic Flyer Generator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generador de Flyer Editable Completo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Roboto:wght@400;700&family=Open+Sans:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div
+      style="
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        max-width: 1600px;
+        margin: 0 auto;
+      "
+    >
+      <!-- Left Panel: Form -->
+      <div style="overflow-y: auto; max-height: 100vh; padding-right: 10px">
+        <h1 style="text-align: center; margin-bottom: 20px">
+          🎨 Generador de Flyer
+        </h1>
 
-    #flyer {
-      width: 600px;
-      height: 800px;
-      padding: 40px;
-      box-sizing: border-box;
-      color: #000;
-      background-size: cover;
-      background-position: center;
-      border: 2px solid #000;
-      position: relative;
-    }
+        <!-- Canvas Dimensions Section -->
+        <div class="form-section">
+          <h3>📱 Formato del Flyer</h3>
+          <div class="form-group">
+            <label for="aspectRatio">Ratio de Aspecto</label>
+            <select id="aspectRatio" onchange="updateCanvasDimensions()">
+              <option value="1:1" selected>1:1 - Cuadrado (Instagram Post)</option>
+              <option value="4:5">
+                4:5 - Vertical (Instagram Feed)
+              </option>
+              <option value="9:16">9:16 - Vertical (Stories/TikTok)</option>
+              <option value="16:9">16:9 - Horizontal (YouTube)</option>
+              <option value="4:3">4:3 - Clásico Horizontal</option>
+              <option value="3:4">3:4 - Clásico Vertical</option>
+              <option value="21:9">21:9 - Ultra-wide</option>
+            </select>
+          </div>
+        </div>
 
-    #preview {
-      margin-top: 20px;
-      max-width: 100%;
-    }
+        <!-- Title Section -->
+        <div class="form-section">
+          <h3>📝 Título y Subtítulo</h3>
+          <div class="form-group">
+            <label for="mainTitle">Título Principal</label>
+            <input
+              type="text"
+              id="mainTitle"
+              placeholder="EL FUTURO DE LA IA: CÓDIGO, HARDWARE Y AGENTES"
+            />
+          </div>
+          <div class="form-group">
+            <label for="titleFontSize">Tamaño de Fuente del Título (px)</label>
+            <input
+              type="number"
+              id="titleFontSize"
+              value="42"
+              min="12"
+              max="100"
+            />
+          </div>
+          <div class="form-group">
+            <label for="subtitle">Subtítulo</label>
+            <input
+              type="text"
+              id="subtitle"
+              placeholder="MEETUP DE CIERRE 2025"
+            />
+          </div>
+          <div class="form-group">
+            <label for="subtitleFontSize"
+              >Tamaño de Fuente del Subtítulo (px)</label
+            >
+            <input
+              type="number"
+              id="subtitleFontSize"
+              value="24"
+              min="12"
+              max="80"
+            />
+          </div>
+        </div>
 
-    input, textarea, button {
-      display: block;
-      margin-bottom: 10px;
-      padding: 8px;
-      font-size: 1rem;
-      width: 100%;
-      max-width: 600px;
-    }
-  </style>
-</head>
-<body>
-  <div class="flex flex-row">
-    <div class="flex-1">
-      <h2 class="text-2xl font-bold text-center">Create Your Flyer</h2>
-      <input class="border border-gray-300 rounded-md p-2 my-2 w-full" type="text" id="titleInput" placeholder="Flyer Title" />
-      <textarea class="border border-gray-300 rounded-md p-2 my-2 w-full" id="descriptionInput" placeholder="Flyer Description"></textarea>
-      <input class="border border-gray-300 rounded-md p-2 my-2 w-full" type="date" id="dateInput" />
-      <input class="border border-gray-300 rounded-md p-2 my-2 w-full" type="text" id="locationInput" placeholder="Location" />
-      <input class="p-2 my-2 w-full" type="file" id="bgInput" accept="image/*" />
+        <!-- Date and Time Section -->
+        <div class="form-section">
+          <h3>📅 Fecha y Hora (recuadro izquierdo)</h3>
+          <div class="form-group">
+            <label for="dayOfWeek">Día de la Semana</label>
+            <input type="text" id="dayOfWeek" placeholder="MIERCOLES" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="month">Mes</label>
+              <input type="text" id="month" placeholder="Diciembre" />
+            </div>
+            <div class="form-group">
+              <label for="day">Día</label>
+              <input type="number" id="day" placeholder="10" min="1" max="31" />
+            </div>
+            <div class="form-group">
+              <label for="year">Año</label>
+              <input
+                type="number"
+                id="year"
+                placeholder="2025"
+                min="2020"
+                max="2100"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="time">Hora (en recuadro de fecha)</label>
+            <input type="text" id="time" placeholder="6:30 p.m." />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="dateBoxColor">Color de Fondo (Fecha)</label>
+              <input type="color" id="dateBoxColor" value="#2563eb" />
+            </div>
+            <div class="form-group">
+              <label for="timeBoxColor">Color de Fondo (Ubicacion)</label>
+              <input type="color" id="timeBoxColor" value="#ffffff" />
+            </div>
+          </div>
+        </div>
 
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2" onclick="updateFlyer()">Update Flyer</button>
-      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2" onclick="generateImage()">Preview</button>
-      <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mb-2" onclick="downloadImage()">Download Flyer</button>
-    </div>
-    <div class="flex-1">
-      <div id="flyer">
-        <div class="flyer-content" id="flyerContent">
-          <h1 id="flyerTitle">Event Title</h1>
-          <p id="flyerDesc">Description goes here...</p>
-          <p id="flyerDate">Date: --</p>
-          <p id="flyerLoc">Location: --</p>
+        <!-- Location Section -->
+        <div class="form-section">
+          <h3>📍 Ubicación (recuadro derecho)</h3>
+          <div class="form-group">
+            <label for="location1">Ubicación Línea 1</label>
+            <input
+              type="text"
+              id="location1"
+              placeholder="Universidad Tecnológica de Pereira"
+            />
+          </div>
+          <div class="form-group">
+            <label for="location2">Ubicación Línea 2</label>
+            <input
+              type="text"
+              id="location2"
+              placeholder="Sala Magistral 1 - Bloque Y (Edificio 13)"
+            />
+          </div>
+        </div>
+
+        <!-- Speakers Configuration Section -->
+        <div class="form-section">
+          <h3>👥 Configuración de Ponentes</h3>
+          <div class="form-group">
+            <label for="numSpeakers">Número de Ponentes</label>
+            <input
+              type="number"
+              id="numSpeakers"
+              value="2"
+              min="0"
+              max="4"
+              onchange="generateSpeakerForms()"
+            />
+          </div>
+        </div>
+
+        <!-- Dynamic Speakers Sections -->
+        <div id="speakersContainer"></div>
+
+        <!-- Registration/CTA Section -->
+        <div class="form-section">
+          <h3>🔔 Registro y Call to Action</h3>
+          <div class="form-group">
+            <label for="registrationEmoji">Emoji/Ícono</label>
+            <input
+              type="text"
+              id="registrationEmoji"
+              placeholder="🔔"
+              maxlength="2"
+            />
+          </div>
+          <div class="form-group">
+            <label for="registrationHighlight">Texto Destacado</label>
+            <input
+              type="text"
+              id="registrationHighlight"
+              placeholder="NATILLA GRATIS"
+            />
+          </div>
+          <div class="form-group">
+            <label for="registrationText">Texto de Llamado</label>
+            <input
+              type="text"
+              id="registrationText"
+              placeholder="Regístrate en"
+            />
+          </div>
+          <div class="form-group">
+            <label for="registrationUrl">URL</label>
+            <input
+              type="text"
+              id="registrationUrl"
+              placeholder="luma.com/pertechtalks"
+            />
+          </div>
+        </div>
+
+        <!-- Sponsors Section -->
+        <div class="form-section">
+          <h3>🤝 Patrocinadores</h3>
+          <div class="form-group">
+            <label for="numSponsors">Número de Patrocinadores</label>
+            <input
+              type="number"
+              id="numSponsors"
+              value="1"
+              min="1"
+              max="6"
+              onchange="generateSponsorForms()"
+            />
+          </div>
+        </div>
+
+        <!-- Dynamic Sponsors Sections -->
+        <div id="sponsorsContainer"></div>
+
+        <!-- Design Section -->
+        <div class="form-section">
+          <h3>🎨 Diseño y Estilo</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="backgroundColor">Color de Fondo Principal</label>
+              <input type="color" id="backgroundColor" value="#0a1628" />
+            </div>
+            <div class="form-group">
+              <label for="bgOpacity">Transparencia de la Imagen (%)</label>
+              <input
+                type="number"
+                id="bgOpacity"
+                value="80"
+                min="0"
+                max="100"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="textColor">Color de Texto</label>
+              <input type="color" id="textColor" value="#ffffff" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fontFamily">Fuente</label>
+            <select id="fontFamily">
+              <option value="'Ubuntu', sans-serif" selected>Ubuntu</option>
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="Helvetica, sans-serif">Helvetica</option>
+              <option value="'Roboto', sans-serif">Roboto</option>
+              <option value="'Open Sans', sans-serif">Open Sans</option>
+              <option value="'Montserrat', sans-serif">Montserrat</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="'Times New Roman', serif">Times New Roman</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bgImage">Imagen de Fondo (Opcional)</label>
+            <input type="file" id="bgImage" accept="image/*" />
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-section">
+          <h3>⚡ Acciones</h3>
+          <div class="button-group">
+            <button class="btn-primary" onclick="updateFlyer()">
+              Actualizar Flyer
+            </button>
+            <button class="btn-success" onclick="generateImage()">
+              Vista Previa
+            </button>
+          </div>
+          <div class="button-group">
+            <button class="btn-secondary" onclick="downloadImage()">
+              Descargar Flyer
+            </button>
+          </div>
+        </div>
+
+        <!-- Export/Import Tools -->
+        <div class="form-section">
+          <h3>🛠️ Herramientas</h3>
+          <div class="button-group">
+            <button class="btn-warning" onclick="exportConfig()">
+              Exportar Configuración
+            </button>
+          </div>
+          <div class="form-group">
+            <label for="importConfigFile">Importar Configuración</label>
+            <input type="file" id="importConfigFile" accept=".json" />
+          </div>
+          <button class="btn-warning" onclick="importConfig()">
+            Cargar Configuración
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Panel: Flyer Preview -->
+      <div style="position: sticky; top: 20px; height: fit-content">
+        <div id="flyerContainer">
+          <div id="flyer">
+            <div id="flyerBgImage"></div>
+            <div id="flyerContent">
+              <!-- Title Section -->
+              <div class="flyer-title-section">
+                <h1 class="flyer-main-title" id="flyerMainTitle">
+                  EL FUTURO DE LA IA
+                </h1>
+                <p class="flyer-subtitle" id="flyerSubtitle">
+                  MEETUP DE CIERRE 2025
+                </p>
+              </div>
+
+              <!-- Date/Time and Speakers Wrapper -->
+              <div class="flyer-datetime-speakers-wrapper">
+                <!-- Date and Time Section -->
+                <div class="flyer-datetime-section">
+                  <div class="flyer-datetime-container">
+                    <div class="flyer-date-box" id="flyerDateBox">
+                      <div class="date-day-week" id="flyerDayOfWeek">
+                        MIERCOLES
+                      </div>
+                      <div class="date-month-day" id="flyerMonthDay">
+                        Diciembre 10
+                      </div>
+                      <div class="date-year" id="flyerYear">2025</div>
+                      <div class="time-text" id="flyerTime">6:30 p.m.</div>
+                    </div>
+                    <div class="flyer-time-box" id="flyerTimeBox">
+                      <div class="flyer-location-line" id="flyerLocation1">
+                        Universidad Tecnológica de Pereira
+                      </div>
+                      <div class="flyer-location-line" id="flyerLocation2">
+                        Sala Magistral 1 - Bloque Y
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Speakers Section -->
+                <div class="flyer-speakers-section" id="flyerSpeakersSection">
+                  <!-- Speakers will be generated dynamically -->
+                </div>
+              </div>
+
+              <!-- Registration Section -->
+              <div class="flyer-registration-section">
+                <div class="registration-group-1">
+                  <div class="flyer-registration-emoji">🔔</div>
+                  <div class="flyer-registration-highlight">NATILLA GRATIS</div>
+                </div>
+                <div class="registration-group-2">
+                  <div class="flyer-registration-text">Regístrate en</div>
+                  <div class="flyer-registration-url">
+                    luma.com/pertechtalks
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sponsors Section -->
+            <div class="flyer-sponsors-section" id="flyerSponsorsSection">
+              <!-- Sponsors will be generated dynamically -->
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="output"></div>
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" onclick="closePreviewModal()">&times;</span>
+        <h2 style="text-align: center; margin-bottom: 20px">Vista Previa de Alta Resolución</h2>
+        <div id="modalImageContainer">
+          <img id="modalPreviewImage" src="" alt="Vista previa del flyer" />
+        </div>
+        <div class="modal-buttons">
+          <button class="btn-success" onclick="downloadFromModal()">📥 Descargar Imagen</button>
+          <button id="copyButton" class="btn-primary" onclick="copyToClipboard()">📋 Copiar al Portapapeles</button>
+        </div>
+      </div>
+    </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script>
-    let generatedImage = null;
-
-    function updateFlyer() {
-      document.getElementById("flyerTitle").innerText = document.getElementById("titleInput").value || "Event Title";
-      document.getElementById("flyerDesc").innerText = document.getElementById("descriptionInput").value || "Description goes here...";
-      document.getElementById("flyerDate").innerText = "Date: " + (document.getElementById("dateInput").value || "--");
-      document.getElementById("flyerLoc").innerText = "Location: " + (document.getElementById("locationInput").value || "--");
-    }
-
-    document.getElementById("bgInput").addEventListener("change", function(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById("flyer").style.backgroundImage = `url(${e.target.result})`;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    function generateImage() {
-      html2canvas(document.getElementById("flyer")).then(canvas => {
-        generatedImage = canvas.toDataURL("image/png");
-        const imgPreview = document.createElement("img");
-        imgPreview.src = generatedImage;
-        imgPreview.id = "preview";
-        const output = document.getElementById("output");
-        output.innerHTML = "";
-        output.appendChild(imgPreview);
-      });
-    }
-
-    function downloadImage() {
-      if (!generatedImage) {
-        alert("Please generate a preview first.");
-        return;
-      }
-      const a = document.createElement("a");
-      a.href = generatedImage;
-      a.download = "flyer.png";
-      a.click();
-    }
-  </script>
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
